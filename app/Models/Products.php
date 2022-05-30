@@ -68,8 +68,11 @@
                     sleep(5);
                 }
                 $product = self::findOne($el);
-                $prices = self::getPrice($product['price']);
-                array_push($products, [...$product, ...$prices]);
+                if($product != null){
+                    $prices = self::getPrice($product['price']);
+                    array_push($products, [...$product, ...$prices]);
+                }
+
             }
         }
         return $products;
