@@ -17,7 +17,7 @@ use App\Models\Products;
 Route::post('/getProducts', function(Request $request){
     $output= Products::findAll($request->all());
     if($output  == 500){
-        return response('Internal server error', 500);
+        return response()->json(['message' => 'Internal server error'], 500);
     }
     return response()->json($output);
 });
