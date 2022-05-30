@@ -10,28 +10,28 @@
             [
             'id'=> 25456,
             'sku'=> 25456,
-            'priceExcVat' => 470,
+            'price' => 470,
             'title' => 'title one',
             'description' => 'lorem aposum lorem aposum lorem aposum lorem aposum lorem aposum'
             ],
             [
             'id'=> 37657,
             'sku'=> 37657,
-            'priceExcVat' => 281,
+            'price' => 281,
             'title' => 'title one',
             'description' => 'lorem aposum lorem aposum lorem aposum lorem aposum lorem aposum'
             ],
             [
             'id'=> 890678,
             'sku'=> 890678,
-            'priceExcVat' => 420,
+            'price' => 420,
             'title' => 'title one',
             'description' => 'lorem aposum lorem aposum lorem aposum lorem aposum lorem aposum'
             ],
             [
             'id'=> 98765,
             'sku'=> 98765,
-            'priceExcVat' => 400,
+            'price' => 400,
             'title' => 'title one',
             'description' => 'lorem aposum lorem aposum lorem aposum lorem aposum lorem aposum'
             ],
@@ -47,7 +47,18 @@
         }
     }
 
-    public static function find($arr){
+    public static function getPrice($price){
+        // Tax rate 25%
+        $tax = 1.25;
+         return [
+            'priceExcVat'=> $price,
+            'priceIncVat' => $price * $tax,
+            'priceExcVatFormatted'=> 'SEK '. number_format((float)$price, 2, '.', ''),
+            'priceIncVatFormatted'=> 'SEK '. number_format((float)$price * $tax, 2, '.', '')
+         ];
+    }
+
+    public static function findAll($arr){
         $products = [];
         foreach($arr as $el){
             if($el == 501){
@@ -57,7 +68,8 @@
                     sleep(5);
                 }
                 $product = self::findOne($el);
-                array_push($products, $product);
+                $prices = self::getPrice($product['price']);
+                array_push($products, [...$product, ...$prices]);
             }
         }
         return $products;

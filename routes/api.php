@@ -14,20 +14,14 @@ use App\Models\Products;
 |
 */
 
-Route::post('/products', function(Request $request){
-    // dd($request->getContent());
-    // $productsId = $request->getContent();
-    $productsId = [
-    98765,
-    37657,
-    890678
-];
-    $output= Products::find($productsId);
+Route::post('/getProducts', function(Request $request){
+    $output= Products::findAll($request->all());
     if($output  == 500){
         return response('Internal server error', 500);
     }
     return response()->json($output);
 });
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
